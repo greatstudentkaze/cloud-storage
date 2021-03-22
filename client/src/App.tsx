@@ -2,7 +2,8 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import Header from './components/header';
-import Registration from './components/registration';
+import Registration from './components/authorization/registration';
+import Login from './components/authorization/login';
 
 const App = () => {
   return (
@@ -10,6 +11,7 @@ const App = () => {
       <Header />
       <Switch>
         <Route path="/registration" component={Registration} />
+        <Route path="/login" component={Login} />
       </Switch>
     </>
   );
