@@ -21,7 +21,7 @@ router.post('/registration', ...validation, async (req: Request, res: Response) 
 
     const { email, password } = req.body;
 
-    const candidate = await UserModel.findOne({ email, password });
+    const candidate = await UserModel.findOne({ email });
 
     if (candidate) {
       return res.status(400).json({ message: `User with email ${email} already exists` });
