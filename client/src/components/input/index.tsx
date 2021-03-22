@@ -5,14 +5,15 @@ type Props = {
   placeholder: string,
   value: string,
   setValue: Dispatch<SetStateAction<string>>,
+  autoComplete?: string,
 };
 
-const Input = ({ type, placeholder, value, setValue }: Props) => {
+const Input = ({ type, placeholder, value, setValue, ...rest }: Props) => {
 
   const handleChange = (evt: ChangeEvent<HTMLInputElement>) => setValue(evt.target.value);
 
   return (
-    <input type={type} placeholder={placeholder} value={value} onChange={handleChange} />
+    <input type={type} placeholder={placeholder} value={value} onChange={handleChange} {...rest} />
   );
 };
 
