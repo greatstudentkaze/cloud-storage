@@ -3,6 +3,8 @@ import { check, validationResult } from 'express-validator';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
+import authMiddleware from '../middlewares/auth.js';
+
 import UserModel from '../models/user.js';
 
 const router = Router();
@@ -11,6 +13,25 @@ const validation = [
   check('email', 'Incorrect email').isEmail(),
   check('password', 'Password must be longer than 3 and shorter that 12 characters').isLength({ min: 3, max: 12 }),
 ];
+
+const getTokenAndUserData = (user: any) => {
+  if (!process.env.SECRET_KEY) {
+    console.error('Добавь SECRET_KEY в .env');
+    throw new Error();
+  }
+
+  const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, { expiresIn: '1h' });
+  return {
+    token,
+    user: {
+      id: user.id,
+      email: user.email,
+      diskSpace: user.diskSpace,
+      usedSpace: user.usedSpace,
+      avatar: user.avatar,
+    }
+  };
+};
 
 router.post('/registration', ...validation, async (req: Request, res: Response) => {
   try {
@@ -54,23 +75,18 @@ router.post('/login', async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'Invalid password' });
     }
 
-    if (!process.env.SECRET_KEY) {
-      res.status(500).send({ message: 'Server error' });
-      return console.error('Добавь SECRET_KEY в .env');
-    }
+    return res.json(getTokenAndUserData(user));
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ message: 'Server error' });
+  }
+});
 
-    const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, { expiresIn: '1h' });
-    return res.json({
-      token,
-      user: {
-        id: user.id,
-        email: user.email,
-        diskSpace: user.diskSpace,
-        usedSpace: user.usedSpace,
-        avatar: user.avatar,
-      }
-    });
+router.get('/auth', authMiddleware, async (req: Request, res: Response) => {
+  try {
+    const user = await UserModel.findOne({ _id: req.user.id });
 
+    return res.json(getTokenAndUserData(user));
   } catch (err) {
     console.error(err);
     res.status(500).send({ message: 'Server error' });
