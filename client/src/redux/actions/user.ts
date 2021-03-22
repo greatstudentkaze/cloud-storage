@@ -2,6 +2,7 @@ import axios from 'axios';
 import { AnyAction } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '../store';
+import { setUser } from '../reducer/user';
 
 export const registration = async (email: string, password: string) => {
   try {
@@ -20,7 +21,8 @@ export const login = (email: string, password: string): LoginActionType => {
     try {
       const response = await axios.post('http://localhost:9111/api/auth/login', { email, password });
 
-      console.log(response.data);
+      dispatch(setUser(response.data.user));
+      localStorage.setItem('token', response.data.token);
     } catch (err) {
       alert(err.response.data.message);
     }
