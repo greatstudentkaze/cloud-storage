@@ -1,0 +1,13 @@
+.user-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.user-list__item {
+
+}
+
+.user-list__item:not(:last-child) {
+  margin-right: 15px;
+}
