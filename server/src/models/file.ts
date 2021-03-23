@@ -7,6 +7,7 @@ const fileSchema = new mongoose.Schema({
   type: { type: String, required: true },
   size: { type: Number, default: 0 },
   path: { type: String, default: '' },
+  date: { type: Date, default: Date.now() },
   accessLink: { type: String },
   parent: { type: ObjectId, ref: 'File' },
   user: { type: ObjectId, ref: 'User' },
