@@ -6,6 +6,7 @@ type Props = {
   value: string,
   setValue: Dispatch<SetStateAction<string>>,
   autoComplete?: string,
+  className?: string,
 };
 
 const Input = ({ type, placeholder, value, setValue, ...rest }: Props) => {
