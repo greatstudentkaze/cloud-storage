@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../../redux/store';
 import { getFiles } from '../../redux/actions/file';
-import { setPopupDisplay } from '../../redux/reducer/file';
+import { popDirFromStack, setCurrentDirectory, setPopupDisplay } from '../../redux/reducer/file';
 
 import FileList from './file-list';
 import Popup from './popup';
@@ -11,6 +11,7 @@ import Popup from './popup';
 const Storage = () => {
   const dispatch = useDispatch();
   const currentDirectory = useSelector(({ file }: RootState) => file.currentDirectory);
+  const dirStack = useSelector(({ file }: RootState) => file.dirStack);
 
   useEffect(() => {
     dispatch(getFiles(currentDirectory));
@@ -20,10 +21,18 @@ const Storage = () => {
     dispatch(setPopupDisplay(true));
   };
 
+  const handleBackButtonClick = () => {
+    const backDirId = dirStack[dirStack.length - 1];
+    dispatch(popDirFromStack());
+    dispatch(setCurrentDirectory(backDirId));
+  };
+
   return (
     <div className="storage">
       <div className="storage__buttons">
-        <button className="storage__button storage__button--back" type="button">Назад</button>
+        {
+          currentDirectory && <button className="storage__button storage__button--back" type="button" onClick={handleBackButtonClick}>Назад</button>
+        }
         <button className="storage__button storage__button--create" type="button" onClick={handleCreateClick}>Создать папку</button>
       </div>
       <FileList />
