@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { RootState } from './redux/store';
@@ -8,6 +8,7 @@ import { auth } from './redux/actions/user';
 import Header from './components/header';
 import Registration from './components/authorization/registration';
 import Login from './components/authorization/login';
+import Storage from './components/storage';
 
 const App = () => {
   const isAuthorized = useSelector(({ user }: RootState) => user.isAuthorized);
@@ -22,11 +23,17 @@ const App = () => {
       <Header />
       {
         isAuthorized
-          ? 'Пользователь авторизован'
+          ? (
+            <Switch>
+              <Route exact path="/" component={Storage} />
+              <Redirect to="/" />
+            </Switch>
+          )
           : (
             <Switch>
               <Route path="/registration" component={Registration} />
               <Route path="/login" component={Login} />
+              <Redirect to="/login" />
             </Switch>
           )
       }
