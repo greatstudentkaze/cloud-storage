@@ -6,6 +6,8 @@ import jwt from 'jsonwebtoken';
 import authMiddleware from '../middlewares/auth.js';
 
 import UserModel from '../models/user.js';
+import FileModel from '../models/file.js';
+import fileService from '../services/file.js';
 
 const router = Router();
 
@@ -51,6 +53,7 @@ router.post('/registration', ...validation, async (req: Request, res: Response) 
     const hashPassword = bcrypt.hashSync(password, 7);
     const user = new UserModel({ email, password: hashPassword });
     await user.save();
+    await fileService.createDirectory(new FileModel({ user: user.id, name: '' }));
 
     return res.status(201).json({ message: 'User was created' });
 
