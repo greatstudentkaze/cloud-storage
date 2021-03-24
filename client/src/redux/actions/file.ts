@@ -75,3 +75,27 @@ export const uploadFile = (file: File, directoryId?: string): ThunkAnyActionType
     }
   }
 };
+
+export const downloadFile = async (file: any) => {
+  try {
+    const response = await axios.get(`http://localhost:9111/api/files/download?id=${file._id}`, {
+      responseType: 'blob',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      }
+    });
+
+    if (response.status === 200) {
+      const downloadUrl = window.URL.createObjectURL(response.data);
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.download = file.name;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    }
+
+  } catch (err) {
+    alert(err.response.data.message);
+  }
+};
