@@ -5,12 +5,14 @@ import { AnyAction } from 'redux';
 
 import { addFile, setFiles, deleteFile as deleteFileActionCreator } from '../reducer/file';
 import { addUploadFile, changeUploadFile, showUploader } from '../reducer/upload';
+import { hideLoader, showLoader } from '../reducer/app';
 
 type ThunkAnyActionType = ThunkAction<void, RootState, unknown, AnyAction>
 
 export const getFiles = (directoryId: string, sort: string): ThunkAnyActionType => {
   return async (dispatch) => {
     try {
+      dispatch(showLoader());
       let url: string;
 
       if (directoryId && sort) {
@@ -31,6 +33,8 @@ export const getFiles = (directoryId: string, sort: string): ThunkAnyActionType 
       dispatch(setFiles(response.data));
     } catch (err) {
       alert(err.response.data.message);
+    } finally {
+      dispatch(hideLoader());
     }
   }
 };

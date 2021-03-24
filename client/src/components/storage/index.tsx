@@ -8,11 +8,13 @@ import { popDirFromStack, setCurrentDirectory, setPopupDisplay } from '../../red
 import FileList from './file-list';
 import Popup from './popup';
 import Uploader from './uploader';
+import Loader from '../loader';
 
 const Storage = () => {
   const dispatch = useDispatch();
   const currentDirectory = useSelector(({ file }: RootState) => file.currentDirectory);
   const dirStack = useSelector(({ file }: RootState) => file.dirStack);
+  const isShowLoader = useSelector(({ app }: RootState) => app.isShowLoader);
   const [dragEnter, setDragEnter] = useState(false);
   const [sort, setSort] = useState('type');
 
@@ -63,6 +65,10 @@ const Storage = () => {
   };
 
   const handleSortChange = (evt: ChangeEvent<HTMLSelectElement>) => setSort(evt.target.value);
+
+  if (isShowLoader) {
+    return <Loader />;
+  }
 
   return (
     dragEnter
