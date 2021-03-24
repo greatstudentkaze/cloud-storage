@@ -1,0 +1,30 @@
+.file {
+}
+
+.file--plate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 150px;
+  height: 150px;
+  margin-right: 40px;
+
+  cursor: pointer;
+}
+
+.file--plate:hover .file__actions {
+  display: block;
+}
+
+.file--plate .file__img {
+  width: 100px;
+  height: 100px;
+}
+
+.file__name {
+
+}
+
+.file--plate .file__actions {
+  display: none;
+}

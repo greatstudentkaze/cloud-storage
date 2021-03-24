@@ -2,6 +2,11 @@
   overflow-x: hidden;
 }
 
+.file-plate {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .file-enter-active {
   animation: file-enter 0.4s both 0s;
 }

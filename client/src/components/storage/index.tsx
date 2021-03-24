@@ -1,9 +1,9 @@
-import React, { ChangeEvent, DragEventHandler, useEffect, useState } from 'react';
+import React, { ChangeEvent, DragEventHandler, SyntheticEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../../redux/store';
 import { getFiles, uploadFile } from '../../redux/actions/file';
-import { popDirFromStack, setCurrentDirectory, setPopupDisplay } from '../../redux/reducer/file';
+import { popDirFromStack, setCurrentDirectory, setPopupDisplay, setView } from '../../redux/reducer/file';
 
 import FileList from './file-list';
 import Popup from './popup';
@@ -66,6 +66,12 @@ const Storage = () => {
 
   const handleSortChange = (evt: ChangeEvent<HTMLSelectElement>) => setSort(evt.target.value);
 
+  const handleDisplaySelectionClick = (evt: SyntheticEvent<HTMLButtonElement>) => {
+    const { currentTarget } = evt;
+
+    dispatch(setView(currentTarget.dataset.view ?? ''));
+  };
+
   if (isShowLoader) {
     return <Loader />;
   }
@@ -93,6 +99,10 @@ const Storage = () => {
               <option value="type">По типу</option>
               <option value="date">По дате</option>
             </select>
+            <div className="storage__display-selection display-selection">
+              <button className="display-selection__plate" type="button" data-view="plate" onClick={handleDisplaySelectionClick}>Плитка</button>
+              <button className="display-selection__list" type="button" data-view="list" onClick={handleDisplaySelectionClick}>Список</button>
+            </div>
           </div>
           <FileList />
           <Popup />
