@@ -1,6 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import { Response, Request } from 'express';
+import { v4 as uuidv4 } from 'uuid';
 
 import fileService from '../services/file.js';
 import FileModel from '../models/file.js';
@@ -146,6 +147,40 @@ class FileController {
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: 'Search error' });
+    }
+  }
+
+  // add file validation
+  async uploadAvatar(req: Request, res: Response) {
+    try {
+      const file = req.files?.file as UploadedFile;
+      const user = await UserModel.findById(req.user.id);
+      const avatarName = uuidv4() + '.jpg';
+
+      await file.mv(path.join(path.resolve(), 'static', avatarName));
+
+      user.avatar = avatarName;
+      await user.save();
+
+      return res.json(user);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Upload avatar error' });
+    }
+  }
+
+  async deleteAvatar(req: Request, res: Response) {
+    try {
+      const user = await UserModel.findById(req.user.id);
+      fs.unlinkSync(path.join(path.resolve(), 'static', user.avatar));
+
+      user.avatar = null;
+      await user.save();
+
+      return res.json(user);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Delete avatar error' });
     }
   }
 }
