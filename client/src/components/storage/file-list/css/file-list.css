@@ -1,0 +1,51 @@
+.file-list {
+  overflow-x: hidden;
+}
+
+.file-enter-active {
+  animation: file-enter 0.4s both 0s;
+}
+
+.file-enter-active:nth-of-type(2n + 1) {
+  animation: file-enter-left 0.5s both 0s;
+}
+
+.file-enter-active:nth-of-type(2n) {
+  animation: file-enter-right 0.5s both 0s;
+}
+
+@keyframes file-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(-50%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes file-enter-left {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes file-enter-right {
+  0% {
+    opacity: 0;
+    transform: translateX(50%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
