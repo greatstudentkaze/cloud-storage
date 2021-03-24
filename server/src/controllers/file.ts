@@ -70,7 +70,7 @@ class FileController {
         name: file.name,
         type,
         size: file.size,
-        path: parent?.path,
+        path: parent ? path.join(parent.path, file.name) : file.name,
         parent: parent?._id,
         user: user._id,
       });
@@ -98,7 +98,24 @@ class FileController {
 
     } catch (err) {
       console.error(err);
-      res.status(500).json({ message: 'Download error' })
+      res.status(500).json({ message: 'Download error' });
+    }
+  }
+
+  async deleteFile(req: Request, res: Response) {
+    try {
+      const file = await FileModel.findOne({ _id: req.params.id, user: req.user.id });
+      if (!file) {
+        return res.status(404).json({ message: 'File not found' });
+      }
+
+      fileService.deleteFile(file);
+      await file.remove();
+
+      return res.json({ message: 'File deleted' });
+    } catch (err) {
+      console.error(err);
+      res.status(400).json({ message: 'Directory is not empty' });
     }
   }
 }
