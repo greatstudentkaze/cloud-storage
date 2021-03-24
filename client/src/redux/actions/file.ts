@@ -40,3 +40,38 @@ export const createDirectory = (directoryId: string, name: string): ThunkAnyActi
     }
   }
 };
+
+export const uploadFile = (file: File, directoryId?: string): ThunkAnyActionType => {
+  return async (dispatch) => {
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      if (directoryId) {
+        formData.append('parent', directoryId);
+      }
+
+      const response = await axios.post(`http://localhost:9111/api/files/upload`,
+        formData, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+        onUploadProgress: progressEvent => {
+          const totalLength = progressEvent.lengthComputable
+            ? progressEvent.total
+            : progressEvent.target.getResponseHeader('content-length') || progressEvent.target.getResponseHeader('x-decompressed-content-length');
+
+          console.log(totalLength);
+
+          if (totalLength) {
+            let progress = Math.round((progressEvent.loaded * 100) / totalLength);
+            console.log(progress)
+          }
+        }
+      });
+      dispatch(addFile(response.data));
+    } catch (err) {
+      alert(err.response.data.message);
+    }
+  }
+};
