@@ -4,7 +4,8 @@
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
-    "start": "nodemon --exec ts-node ./lib/index.js",
+    "start": "node ./lib/index.js",
+    "start:dev": "nodemon --exec ts-node ./lib/index.js",
     "build": "tsc -p .",
     "watch": "tsc -p . -w"
   },

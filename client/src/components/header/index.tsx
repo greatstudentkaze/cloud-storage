@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { API_URL } from '../../constants';
+
 import { RootState } from '../../redux/store';
 import { logOut } from '../../redux/reducer/user';
 import { getFiles, searchFiles } from '../../redux/actions/file';
@@ -24,7 +26,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const [searchQuery, setSearchQuery] = useState('');
   const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout>(null as unknown as NodeJS.Timeout);
-  const avatar = currentUser.avatar ? `http://localhost:9111/${currentUser.avatar}` : userAvatar;
+  const avatar = currentUser.avatar ? `${API_URL}${currentUser.avatar}` : userAvatar;
 
   useEffect(() => {
     if (searchTimeout) {
