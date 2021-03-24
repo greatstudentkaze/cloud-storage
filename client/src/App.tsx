@@ -9,6 +9,7 @@ import Header from './components/header';
 import Registration from './components/authorization/registration';
 import Login from './components/authorization/login';
 import Storage from './components/storage';
+import Profile from './components/profile';
 
 const App = () => {
   const isAuthorized = useSelector(({ user }: RootState) => user.isAuthorized);
@@ -26,6 +27,7 @@ const App = () => {
           ? (
             <Switch>
               <Route exact path="/" component={Storage} />
+              <Route exact path="/profile" component={Profile} />
               <Redirect to="/" />
             </Switch>
           )

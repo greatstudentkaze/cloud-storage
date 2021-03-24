@@ -44,3 +44,36 @@ export const auth = (): ThunkAnyActionType => {
   }
 };
 
+export const uploadAvatar = (avatarFile: File): ThunkAnyActionType => {
+  return async (dispatch) => {
+    try {
+      const formData = new FormData();
+      formData.append('file', avatarFile);
+
+      const response = await axios.post('http://localhost:9111/api/files/avatar',
+        formData,
+        {
+          headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+        });
+
+      dispatch(setUser(response.data));
+    } catch (err) {
+      console.log(err)
+    }
+  }
+};
+
+export const deleteAvatar = (): ThunkAnyActionType => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.delete('http://localhost:9111/api/files/avatar', {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+      });
+
+      dispatch(setUser(response.data));
+    } catch (err) {
+      console.log(err)
+    }
+  }
+};
+
