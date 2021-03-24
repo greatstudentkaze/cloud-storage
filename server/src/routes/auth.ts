@@ -28,7 +28,7 @@ const getTokenAndUserData = (user: any) => {
     user: {
       id: user.id,
       email: user.email,
-      diskSpace: user.diskSpace,
+      storageSpace: user.storageSpace,
       usedSpace: user.usedSpace,
       avatar: user.avatar,
     }

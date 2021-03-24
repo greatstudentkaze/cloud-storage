@@ -8,5 +8,6 @@ const router = Router();
 
 router.post('', authMiddleware, fileController.createDirectory);
 router.get('', authMiddleware, fileController.getFiles);
+router.post('/upload', authMiddleware, fileController.uploadFile);
 
 export default router;

@@ -1,8 +1,11 @@
 import path from 'path';
+import fs from 'fs';
 import { Response, Request } from 'express';
 
 import fileService from '../services/file.js';
 import FileModel from '../models/file.js';
+import UserModel from '../models/user.js';
+import { UploadedFile } from 'express-fileupload';
 
 class FileController {
   async createDirectory(req: Request, res: Response) {
@@ -36,6 +39,49 @@ class FileController {
     } catch (err) {
       console.error(err);
       return res.status(500).json({ message: 'Cannot get files' });
+    }
+  }
+
+  async uploadFile(req: Request, res: Response) {
+    try {
+      const file = req.files?.file as UploadedFile;
+
+      const parent = await FileModel.findOne({ user: req.user.id, _id: req.body.parent });
+      const user = await UserModel.findOne({ _id: req.user.id });
+
+      if (user.usedSpace + file.size > user.storageSpace) {
+        return res.status(400).json({ message: 'There is no free storage space' });
+      }
+
+      user.usedSpace = user.usedSpace + file.size;
+
+      let filePath = parent
+        ? path.join(path.resolve(), 'files', user._id.toString(), parent.path, file.name)
+        : path.join(path.resolve(), 'files', user._id.toString(), file.name);
+
+      if (fs.existsSync(filePath)) {
+        return res.status(400).json({ message: 'File already exists' });
+      }
+
+      await file.mv(filePath);
+
+      const type = file.name.split('.').pop();
+      const fileData = new FileModel({
+        name: file.name,
+        type,
+        size: file.size,
+        path: parent?.path,
+        parent: parent?._id,
+        user: user._id,
+      });
+
+      await fileData.save();
+      await user.save();
+
+      return res.status(201).json(fileData);
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ message: 'Upload error' });
     }
   }
 }

@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import 'dotenv/config.js';
+import fileUpload from 'express-fileupload';
 
 import authRouter from './routes/auth.js';
 import fileRouter from './routes/file.js';
@@ -9,6 +10,7 @@ import cors from './middlewares/cors.js';
 const PORT = process.env.PORT;
 
 const app = express();
+app.use(fileUpload({}));
 app.use(cors);
 app.use(express.json());
 app.use('/api/auth', authRouter);
