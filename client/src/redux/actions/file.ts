@@ -123,7 +123,7 @@ export const deleteFile = (file: any): ThunkAnyActionType => {
   return async (dispatch) => {
     try {
 
-      const response = await axios.delete(`http://localhost:9111/api/files/${file._id}`, {
+      const response = await axios.delete(`http://localhost:9111/api/files?id=${file._id}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
