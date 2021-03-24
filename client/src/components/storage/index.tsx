@@ -14,10 +14,11 @@ const Storage = () => {
   const currentDirectory = useSelector(({ file }: RootState) => file.currentDirectory);
   const dirStack = useSelector(({ file }: RootState) => file.dirStack);
   const [dragEnter, setDragEnter] = useState(false);
+  const [sort, setSort] = useState('type');
 
   useEffect(() => {
-    dispatch(getFiles(currentDirectory));
-  }, [currentDirectory]);
+    dispatch(getFiles(currentDirectory, sort));
+  }, [currentDirectory, sort]);
 
   const handleCreateClick = () => {
     dispatch(setPopupDisplay(true));
@@ -61,6 +62,8 @@ const Storage = () => {
     setDragEnter(false);
   };
 
+  const handleSortChange = (evt: ChangeEvent<HTMLSelectElement>) => setSort(evt.target.value);
+
   return (
     dragEnter
       ? (
@@ -79,6 +82,11 @@ const Storage = () => {
               <label htmlFor="upload" className="storage__upload-label">Загрузить файл</label>
               <input className="storage__upload-input" type="file" id="upload" onChange={handleFileUploadChange} multiple={true} />
             </div>
+            <select className="storage__select" value={sort} onChange={handleSortChange}>
+              <option value="name">По имени</option>
+              <option value="type">По типу</option>
+              <option value="date">По дате</option>
+            </select>
           </div>
           <FileList />
           <Popup />

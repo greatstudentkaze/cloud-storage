@@ -8,10 +8,22 @@ import { addUploadFile, changeUploadFile, showUploader } from '../reducer/upload
 
 type ThunkAnyActionType = ThunkAction<void, RootState, unknown, AnyAction>
 
-export const getFiles = (directoryId: string): ThunkAnyActionType => {
+export const getFiles = (directoryId: string, sort: string): ThunkAnyActionType => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`http://localhost:9111/api/files${directoryId ? `?parent=${directoryId}` : ''}`, {
+      let url: string;
+
+      if (directoryId && sort) {
+        url = `http://localhost:9111/api/files?parent=${directoryId}&sort=${sort}`;
+      } else if (directoryId) {
+        url = `http://localhost:9111/api/files?parent=${directoryId}`;
+      } else if (sort) {
+        url = `http://localhost:9111/api/files?sort=${sort}`;
+      } else {
+        url = 'http://localhost:9111/api/files';
+      }
+
+      const response = await axios.get(url, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         }
