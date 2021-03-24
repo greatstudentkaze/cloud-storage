@@ -88,14 +88,13 @@ class FileController {
   async downloadFile(req: Request, res: Response) {
     try {
       const file = await FileModel.findOne({ _id: req.query.id, user: req.user.id });
-      const filePath = path.join(path.resolve(), 'files', req.user.id, file.path, file.name);
+      const filePath = fileService.getPath(file);
 
       if (fs.existsSync(filePath)) {
         return res.download(filePath, file.name);
       }
 
       return res.status(400).json({ message: 'Download error' });
-
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: 'Download error' });
