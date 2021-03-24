@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { pushDirToStack, setCurrentDirectory } from '../../../../redux/reducer/file';
 import { RootState } from '../../../../redux/store';
 import { downloadFile, deleteFile } from '../../../../redux/actions/file';
+import formatSize from '../../../../utils/formatSize';
 
 type Props = {
   file: any
@@ -38,7 +39,7 @@ const File = ({ file }: Props) => {
       <img className="file__img" src="" alt="" />
       <div className="file__name">{file.name}</div>
       <div className="file__date">{file.date.slice(0, 10)}</div>
-      <div className="file__size">{file.size}</div>
+      <div className="file__size">{formatSize(file.size)}</div>
       {file.type !== 'dir' && <button type="button" onClick={handleDownloadClick}>Загрузить</button>}
       <button type="button" onClick={handleDeleteClick}>Удалить</button>
     </div>
