@@ -11,6 +11,14 @@ import './css/file-list.css';
 const FileList = () => {
   const files = useSelector(({ file }: RootState) => file.files);
 
+  if (!files.length) {
+    return (
+      <div>
+        Файлы не найдены
+      </div>
+    );
+  }
+
   return (
     <div className="file-list">
       <header className="file-list__header">
