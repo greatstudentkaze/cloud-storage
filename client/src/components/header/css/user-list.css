@@ -11,3 +11,7 @@
 .user-list__item:not(:last-child) {
   margin-right: 15px;
 }
+
+.user-list__search {
+  width: 200px;
+}

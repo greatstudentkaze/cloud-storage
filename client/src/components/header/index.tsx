@@ -1,17 +1,42 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../../redux/store';
 import { logOut } from '../../redux/reducer/user';
+import { getFiles, searchFiles } from '../../redux/actions/file';
+import { showLoader } from '../../redux/reducer/app';
+
+import Input from '../input';
 
 import './css/user-list.css';
 import './css/main-nav.css';
 import './css/page-header.css';
 
+const SEARCH_TIMEOUT = 500;
+
 const Header = () => {
   const isAuthorized = useSelector(({ user }: RootState) => user.isAuthorized);
+  const currentDirectory = useSelector(({ file }: RootState) => file.currentDirectory);
+  const sort = useSelector(({ file }: RootState) => file.sort);
   const dispatch = useDispatch();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout>(null as unknown as NodeJS.Timeout);
+
+  useEffect(() => {
+    if (searchTimeout) {
+      clearTimeout(searchTimeout);
+    }
+
+    dispatch(showLoader());
+    if (searchQuery) {
+      setSearchTimeout(setTimeout((value) => {
+        dispatch(searchFiles(value));
+      }, SEARCH_TIMEOUT, searchQuery));
+    } else {
+      dispatch(getFiles(currentDirectory, sort));
+    }
+  }, [searchQuery]);
 
   const handleLogOutClick = () => {
     localStorage.removeItem('token');
@@ -31,6 +56,11 @@ const Header = () => {
           {
             !isAuthorized && <li className="user-list__item">
               <NavLink className="page-header__registration" to="/registration">Зарегистрироваться</NavLink>
+            </li>
+          }
+          {
+            isAuthorized && <li className="user-list__item">
+              <Input className="user-list__search" type="text" placeholder="Название файла..." value={searchQuery} setValue={setSearchQuery} />
             </li>
           }
           {
