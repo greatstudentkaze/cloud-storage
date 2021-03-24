@@ -4,6 +4,7 @@ import { RootState } from '../store';
 import { AnyAction } from 'redux';
 
 import { addFile, setFiles, deleteFile as deleteFileActionCreator } from '../reducer/file';
+import { addUploadFile, changeUploadFile, showUploader } from '../reducer/upload';
 
 type ThunkAnyActionType = ThunkAction<void, RootState, unknown, AnyAction>
 
@@ -51,6 +52,10 @@ export const uploadFile = (file: File, directoryId?: string): ThunkAnyActionType
         formData.append('parent', directoryId);
       }
 
+      const uploadFile = { name: file.name, progress: 0, id: `${Date.now() + file.name}` };
+      dispatch(showUploader());
+      dispatch(addUploadFile(uploadFile));
+
       const response = await axios.post(`http://localhost:9111/api/files/upload`,
         formData, {
         headers: {
@@ -61,11 +66,9 @@ export const uploadFile = (file: File, directoryId?: string): ThunkAnyActionType
             ? progressEvent.total
             : progressEvent.target.getResponseHeader('content-length') || progressEvent.target.getResponseHeader('x-decompressed-content-length');
 
-          console.log(totalLength);
-
           if (totalLength) {
             let progress = Math.round((progressEvent.loaded * 100) / totalLength);
-            console.log(progress)
+            dispatch(changeUploadFile(uploadFile.id, progress))
           }
         }
       });

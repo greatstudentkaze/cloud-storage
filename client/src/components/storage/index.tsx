@@ -7,6 +7,7 @@ import { popDirFromStack, setCurrentDirectory, setPopupDisplay } from '../../red
 
 import FileList from './file-list';
 import Popup from './popup';
+import Uploader from './uploader';
 
 const Storage = () => {
   const dispatch = useDispatch();
@@ -81,6 +82,7 @@ const Storage = () => {
           </div>
           <FileList />
           <Popup />
+          <Uploader />
         </div>
       )
   );

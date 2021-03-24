@@ -1,0 +1,41 @@
+.upload-file {
+
+}
+
+.upload-file__header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.upload-file__title {
+
+}
+
+.upload-file__remove {
+
+}
+
+.upload-file__progress {
+  display: flex;
+  height: 1rem;
+  margin-bottom: 6px;
+
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+
+.upload-file__upload-bar {
+  //width: 50%;
+
+  background-color: green;
+  border-radius: 8px;
+}
+
+.upload-file__percent {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+  color: #333333;
+}
+
