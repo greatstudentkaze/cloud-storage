@@ -135,6 +135,19 @@ class FileController {
       res.status(400).json({ message: 'Directory is not empty' });
     }
   }
+
+  async searchFiles(req: Request, res: Response) {
+    try {
+      const searchQuery = req.query.query ? String(req.query.query) : '';
+      const sourceFiles = await FileModel.find({ user: req.user.id });
+      const files = sourceFiles.filter((file: any) => file.name.toLowerCase().includes(searchQuery.toLowerCase()));
+
+      res.json(files);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Search error' });
+    }
+  }
 }
 
 export default new FileController();
