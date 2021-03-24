@@ -4,6 +4,7 @@ const ADD_FILE = 'ADD_FILE';
 const SET_POPUP_DISPLAY = 'SET_POPUP_DISPLAY';
 const PUSH_DIR_TO_STACK = 'PUSH_DIR_TO_STACK';
 const POP_DIR_FROM_STACK = 'POP_DIR_FROM_STACK';
+const DELETE_FILE = 'DELETE_FILE';
 
 const initialState = {
   files: [],
@@ -41,6 +42,11 @@ export const popDirFromStack = () => ({
   type: POP_DIR_FROM_STACK,
 });
 
+export const deleteFile = (fileId: string) => ({
+  type: DELETE_FILE,
+  payload: fileId,
+});
+
 const fileReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case SET_FILES:
@@ -72,6 +78,11 @@ const fileReducer = (state = initialState, action: any) => {
       return {
         ...state,
         dirStack: state.dirStack.slice(0, state.dirStack.length - 1)
+      };
+    case DELETE_FILE:
+      return {
+        ...state,
+        files: state.files.filter((file: any) => file._id !== action.payload)
       };
     default:
       return state;

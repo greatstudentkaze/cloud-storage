@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { pushDirToStack, setCurrentDirectory } from '../../../../redux/reducer/file';
 import { RootState } from '../../../../redux/store';
-import { downloadFile } from '../../../../redux/actions/file';
+import { downloadFile, deleteFile } from '../../../../redux/actions/file';
 
 type Props = {
   file: any
@@ -27,6 +27,12 @@ const File = ({ file }: Props) => {
     downloadFile(file);
   };
 
+  const handleDeleteClick = (evt: SyntheticEvent) => {
+    evt.stopPropagation();
+
+    dispatch(deleteFile(file));
+  };
+
   return (
     <div className="file" onClick={handleOpenDirectory}>
       <img className="file__img" src="" alt="" />
@@ -34,7 +40,7 @@ const File = ({ file }: Props) => {
       <div className="file__date">{file.date.slice(0, 10)}</div>
       <div className="file__size">{file.size}</div>
       {file.type !== 'dir' && <button type="button" onClick={handleDownloadClick}>Загрузить</button>}
-      <button type="button">Удалить</button>
+      <button type="button" onClick={handleDeleteClick}>Удалить</button>
     </div>
   );
 };

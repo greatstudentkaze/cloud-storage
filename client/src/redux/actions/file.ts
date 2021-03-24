@@ -3,7 +3,7 @@ import { ThunkAction } from 'redux-thunk';
 import { RootState } from '../store';
 import { AnyAction } from 'redux';
 
-import { addFile, setFiles } from '../reducer/file';
+import { addFile, setFiles, deleteFile as deleteFileActionCreator } from '../reducer/file';
 
 type ThunkAnyActionType = ThunkAction<void, RootState, unknown, AnyAction>
 
@@ -97,5 +97,22 @@ export const downloadFile = async (file: any) => {
 
   } catch (err) {
     alert(err.response.data.message);
+  }
+};
+
+export const deleteFile = (file: any): ThunkAnyActionType => {
+  return async (dispatch) => {
+    try {
+
+      const response = await axios.delete(`http://localhost:9111/api/files/${file._id}`, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+      dispatch(deleteFileActionCreator(file._id));
+      alert(response.data.message);
+    } catch (err) {
+      alert(err.response.data.message);
+    }
   }
 };
