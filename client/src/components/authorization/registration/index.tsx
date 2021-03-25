@@ -16,11 +16,13 @@ const Registration = () => {
   }
 
   return (
-    <form className="authorization" onSubmit={handleSubmit}>
-      <Input type="email" placeholder="Введите электронную почту" value={email} setValue={setEmail} autoComplete="username" />
-      <Input type="password" placeholder="Введите пароль" value={password} setValue={setPassword} autoComplete="current-password" />
-      <button type="submit">Регистрация</button>
-    </form>
+    <div className="page-authorization">
+      <form className="authorization" onSubmit={handleSubmit}>
+        <Input className="authorization__input" type="email" placeholder="Введите электронную почту" value={email} setValue={setEmail} autoComplete="username" />
+        <Input className="authorization__input" type="password" placeholder="Введите пароль" value={password} setValue={setPassword} autoComplete="current-password" />
+        <button className="authorization__submit button" type="submit">Регистрация</button>
+      </form>
+    </div>
   );
 };
 

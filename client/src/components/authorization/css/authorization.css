@@ -1,0 +1,27 @@
+.page-authorization {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: calc(100vh - 80px);
+  padding-top: 120px;
+  padding-bottom: 120px;
+}
+
+.authorization {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  padding: 40px;
+  padding-bottom: 50px;
+
+  background-color: var(--color-white);
+  border-radius: 12px;
+}
+
+.authorization__input {
+  margin-bottom: 20px;
+}
+
+.authorization__submit {
+  margin-top: 20px;
+}
