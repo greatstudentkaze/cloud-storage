@@ -1,13 +1,11 @@
 .page-header {
+  padding: 20px;
+
+  background-color: #ffffff;
+}
+
+.page-header__container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.page-header__login {
-
-}
-
-.page-header__registration {
-
 }

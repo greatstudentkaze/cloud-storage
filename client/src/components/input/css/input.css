@@ -1,0 +1,21 @@
+.input {
+  display: inline-block;
+  padding: 8px 12px;
+
+  font-size: 16px;
+  line-height: 1;
+  color: var(--color-gray);
+
+  border: none;
+  border-bottom: 2px solid var(--color-gray);
+
+  transition: outline 0.3s ease-in-out 0s;
+}
+
+.input:focus {
+  outline: none;
+}
+
+.input:focus-visible {
+  border-color: var(--color-blue);
+}

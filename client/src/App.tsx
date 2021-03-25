@@ -5,6 +5,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from './redux/store';
 import { auth } from './redux/actions/user';
 
+import 'normalize.css';
+import './css/index.css';
+import './css/container.css';
+import './css/button.css';
+
 import Header from './components/header';
 import Registration from './components/authorization/registration';
 import Login from './components/authorization/login';

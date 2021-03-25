@@ -1,0 +1,35 @@
+:root {
+  --color-white: #ffffff;
+  --color-blue: #3d3df0;
+  --color-gray: #757581;
+  --color-lightblue: #dedefb;
+  --color-lightblue-lighter: #e6ebfa;
+  --color-background: #eff2f8;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html,
+body {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Raleway", "Arial", sans-serif;
+  color: var(--color-gray);
+
+  background-color: var(--color-background);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  text-decoration: none;
+}
