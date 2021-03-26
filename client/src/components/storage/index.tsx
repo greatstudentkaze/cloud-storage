@@ -11,6 +11,7 @@ import Uploader from './uploader';
 
 import './css/storage.css';
 import './css/display-selection.css';
+import DropArea from './drop-area';
 
 const Storage = () => {
   const dispatch = useDispatch();
@@ -76,11 +77,7 @@ const Storage = () => {
 
   return (
     dragEnter
-      ? (
-      <div className="drop-area" onDrop={handleDrop} onDragEnter={handleDragEnter} onDragLeave={handleDragLeave} onDragOver={handleDragEnter}>
-        Перетащите файлы сюда
-      </div>
-      )
+      ? <DropArea handleDrop={handleDrop} handleDragEnter={handleDragEnter} handleDragLeave={handleDragLeave} />
       : (
         <section className="storage" onDragEnter={handleDragEnter} onDragLeave={handleDragLeave} onDragOver={handleDragEnter} >
           <h2 className="visually-hidden">Хранилище</h2>

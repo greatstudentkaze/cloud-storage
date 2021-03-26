@@ -1,0 +1,15 @@
+.drop-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 138px);
+  margin: 30px;
+
+  font-size: 64px;
+  line-height: 1;
+  font-weight: 700;
+  color: var(--color-gray);
+
+  border: 10px dashed var(--color-gray);
+  border-radius: 30px;
+}
