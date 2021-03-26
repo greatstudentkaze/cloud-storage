@@ -150,7 +150,7 @@ class FileController {
     }
   }
 
-  // add file validation
+  // todo: add file validation
   async uploadAvatar(req: Request, res: Response) {
     try {
       const file = req.files?.file as UploadedFile;

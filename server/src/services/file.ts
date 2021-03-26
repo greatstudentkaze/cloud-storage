@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-// throw errors instead of try-catch
+// todo: throw errors instead of try-catch
 class FileService {
   createDirectory(file: any) {
     const filePath = path.join(path.resolve(), 'files', file.user.toString(), file.path);
