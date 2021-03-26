@@ -6,6 +6,7 @@ import { RootState } from '../../../redux/store';
 
 import File from './file';
 import Loader from '../../loader';
+import NoFilesFound from './no-files-found';
 
 import './css/file-list.css';
 
@@ -19,11 +20,7 @@ const FileList = () => {
   }
 
   if (!files.length) {
-    return (
-      <div>
-        Файлы не найдены
-      </div>
-    );
+    return <NoFilesFound />;
   }
 
   if (filesView === 'plate') {

@@ -1,0 +1,41 @@
+.no-files-found-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 328px);
+  min-height: 350px;
+}
+
+.no-files-found {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  align-items: center;
+  column-gap: 30px;
+  row-gap: 30px;
+}
+
+.no-files-found__lead {
+  margin: 0;
+
+  font-size: 64px;
+  line-height: 1;
+  font-weight: 500;
+}
+
+.no-files-found__image {
+}
+
+.no-files-found__image img {
+  width: 150px;
+  height: 150px;
+}
+
+.no-files-found__hint {
+  grid-column-start: 2;
+  max-width: 400px;
+  margin: 0;
+
+  font-size: 32px;
+  line-height: 1.2;
+  text-align: center;
+}
