@@ -1,0 +1,56 @@
+.storage {
+  padding-top: 40px;
+  padding-bottom: 120px;
+}
+
+.storage__actions {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 50px;
+}
+
+.storage__button--back {
+  margin-right: 20px;
+}
+
+.storage__upload {
+  margin-left: 20px;
+}
+
+.storage__upload input {
+  outline: none;
+  appearance: none;
+  width: 0;
+  height: 0;
+}
+
+.storage__upload input:focus + .storage__upload-label {
+  box-shadow: 0 0 0 2px var(--color-white), 0 0 0 4px var(--color-blue);
+}
+
+.storage__select {
+  margin-left: auto;
+  padding: 0 20px;
+
+  font-weight: 700;
+  color: var(--color-white);
+
+  border: 2px solid var(--color-blue);
+  background-color: var(--color-blue);
+  border-radius: 0.3em;
+
+  transition: all 0.3s ease-in-out 0s;
+}
+
+.storage__select:focus {
+  outline: none;
+}
+
+.storage__select:enabled:focus-visible {
+  color: var(--color-blue);
+  background-color: var(--color-white);
+}
+
+.storage__display-selection {
+  margin-left: 50px;
+}

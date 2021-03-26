@@ -5,12 +5,18 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { RootState } from '../../../redux/store';
 
 import File from './file';
+import Loader from '../../loader';
 
 import './css/file-list.css';
 
 const FileList = () => {
   const files = useSelector(({ file }: RootState) => file.files);
   const filesView = useSelector(({ file }: RootState) => file.view);
+  const isShowLoader = useSelector(({ app }: RootState) => app.isShowLoader);
+
+  if (isShowLoader) {
+    return <Loader />
+  }
 
   if (!files.length) {
     return (
