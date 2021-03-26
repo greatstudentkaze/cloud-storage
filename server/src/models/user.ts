@@ -1,7 +1,16 @@
-import mongoose from 'mongoose';
-
+import mongoose, { Document } from 'mongoose';
 const { ObjectId } = mongoose.Schema.Types;
 
+import { IFile } from './file';
+
+export interface IUser extends Document {
+  email: string,
+  password: string,
+  avatar?: string | null,
+  storageSpace: number,
+  usedSpace: number,
+  files: IFile['_id'],
+}
 
 const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
@@ -12,4 +21,4 @@ const userSchema = new mongoose.Schema({
   files: [{ type: ObjectId, ref: 'File' }]
 });
 
-export default mongoose.model('User', userSchema);
+export default mongoose.model<IUser>('User', userSchema);
