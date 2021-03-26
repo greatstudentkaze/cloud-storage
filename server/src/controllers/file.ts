@@ -2,11 +2,11 @@ import path from 'path';
 import fs from 'fs';
 import { Response, Request } from 'express';
 import { v4 as uuidv4 } from 'uuid';
+import { UploadedFile } from 'express-fileupload';
 
 import fileService from '../services/file.js';
-import FileModel from '../models/file.js';
+import FileModel, { IFile } from '../models/file.js';
 import UserModel from '../models/user.js';
-import { UploadedFile } from 'express-fileupload';
 
 class FileController {
   async createDirectory(req: Request, res: Response) {
@@ -47,7 +47,7 @@ class FileController {
           files = await FileModel.find({ user: req.user.id, parent: req.query.parent }).sort({ type: 1 });
           break;
         case 'date':
-          files = await FileModel.find({ user: req.user.id, parent: req.query.parent }).sort({ date: 1 });
+          files = await FileModel.find({ user: req.user.id, parent: req.query.parent }).sort({ date: -1 });
           break;
         default:
           files = await FileModel.find({ user: req.user.id, parent: req.query.parent });
@@ -67,6 +67,10 @@ class FileController {
 
       const parent = await FileModel.findOne({ user: req.user.id, _id: req.body.parent });
       const user = await UserModel.findOne({ _id: req.user.id });
+
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
 
       if (user.usedSpace + file.size > user.storageSpace) {
         return res.status(400).json({ message: 'There is no free storage space' });
@@ -107,6 +111,11 @@ class FileController {
   async downloadFile(req: Request, res: Response) {
     try {
       const file = await FileModel.findOne({ _id: req.query.id, user: req.user.id });
+
+      if (!file) {
+        return res.status(404).json({ message: 'File not found' });
+      }
+
       const filePath = fileService.getPath(file);
 
       if (fs.existsSync(filePath)) {
@@ -141,7 +150,7 @@ class FileController {
     try {
       const searchQuery = req.query.query ? String(req.query.query) : '';
       const sourceFiles = await FileModel.find({ user: req.user.id });
-      const files = sourceFiles.filter((file: any) => file.name.toLowerCase().includes(searchQuery.toLowerCase()));
+      const files = sourceFiles.filter((file: IFile) => file.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
       res.json(files);
     } catch (err) {
@@ -155,8 +164,12 @@ class FileController {
     try {
       const file = req.files?.file as UploadedFile;
       const user = await UserModel.findById(req.user.id);
-      const avatarName = uuidv4() + '.jpg';
 
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      const avatarName = uuidv4() + '.jpg';
       await file.mv(path.join(path.resolve(), 'static', avatarName));
 
       user.avatar = avatarName;
@@ -172,6 +185,15 @@ class FileController {
   async deleteAvatar(req: Request, res: Response) {
     try {
       const user = await UserModel.findById(req.user.id);
+
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      if (!user.avatar) {
+        return res.status(404).json({ message: 'Avatar not found' });
+      }
+
       fs.unlinkSync(path.join(path.resolve(), 'static', user.avatar));
 
       user.avatar = null;

@@ -4,10 +4,10 @@ import { validationResult } from 'express-validator';
 import { Response, Request } from 'express';
 
 import fileService from '../services/file.js';
-import UserModel from '../models/user.js';
+import UserModel, { IUser } from '../models/user.js';
 import FileModel from '../models/file.js';
 
-const getTokenAndUserData = (user: any) => {
+const getTokenAndUserData = (user: IUser) => {
   if (!process.env.SECRET_KEY) {
     console.error('Добавь SECRET_KEY в .env');
     throw new Error();
@@ -80,6 +80,10 @@ class AuthController {
   async authorizeUser(req: Request, res: Response) {
     try {
       const user = await UserModel.findOne({ _id: req.user.id });
+
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
 
       return res.json(getTokenAndUserData(user));
     } catch (err) {

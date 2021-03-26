@@ -1,34 +1,30 @@
 import fs from 'fs';
 import path from 'path';
 
-// todo: throw errors instead of try-catch
+import { IFile } from '../models/file';
+
 class FileService {
-  createDirectory(file: any) {
+  createDirectory(file: IFile) {
     const filePath = path.join(path.resolve(), 'files', file.user.toString(), file.path);
 
     return new Promise((resolve, reject) => {
-      try {
-        if (!fs.existsSync(filePath)) {
-          fs.mkdirSync(filePath);
+      if (!fs.existsSync(filePath)) {
+        fs.mkdirSync(filePath);
 
-          return resolve({ message: 'File was created' });
-        } else {
-          return reject({ message: 'File already exists' });
-        }
-
-      } catch (err) {
-        return reject({ message: 'File error' });
+        return resolve({ message: 'File was created' });
+      } else {
+        return reject(new Error('File already exists'));
       }
     });
   }
 
-  deleteFile(file: any) {
+  deleteFile(file: IFile) {
     const path = this.getPath(file);
 
     file.type === 'dir' ? fs.rmdirSync(path) : fs.unlinkSync(path);
   }
 
-  getPath(file: any) {
+  getPath(file: IFile) {
     return path.join(path.resolve(), 'files', file.user.toString(), file.path);
   }
 }
