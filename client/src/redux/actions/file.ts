@@ -5,6 +5,7 @@ import { AnyAction } from 'redux';
 
 import { API_URL } from '../../constants';
 import { IFile } from '../../interfaces';
+import { ResponseType } from '../../namespaces/file';
 
 import { addFile, setFiles, deleteFile as deleteFileActionCreator } from '../reducer/file';
 import { addUploadFile, changeUploadFile, showUploader } from '../reducer/upload';
@@ -12,7 +13,7 @@ import { hideLoader, showLoader } from '../reducer/app';
 
 type ThunkAnyActionType = ThunkAction<void, RootState, unknown, AnyAction>
 
-export const getFiles = (directoryId: string, sort: string): ThunkAnyActionType => {
+export const getFiles = (directoryId: string, sort?: string): ThunkAnyActionType => {
   return async (dispatch) => {
     try {
       dispatch(showLoader());
@@ -28,7 +29,7 @@ export const getFiles = (directoryId: string, sort: string): ThunkAnyActionType 
         url = `${API_URL}api/files`;
       }
 
-      const response = await axios.get(url, {
+      const response = await axios.get<ResponseType.Files>(url, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         }
@@ -45,7 +46,7 @@ export const getFiles = (directoryId: string, sort: string): ThunkAnyActionType 
 export const createDirectory = (directoryId: string, name: string): ThunkAnyActionType => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(`${API_URL}api/files`, {
+      const response = await axios.post<ResponseType.CreateDirectory>(`${API_URL}api/files`, {
         name,
         parent: directoryId,
         type: 'dir',
@@ -75,12 +76,12 @@ export const uploadFile = (file: File, directoryId?: string): ThunkAnyActionType
       dispatch(showUploader());
       dispatch(addUploadFile(uploadFile));
 
-      const response = await axios.post(`${API_URL}api/files/upload`,
+      const response = await axios.post<ResponseType.UploadFile>(`${API_URL}api/files/upload`,
         formData, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
-        onUploadProgress: progressEvent => {
+        onUploadProgress: (progressEvent) => {
           const totalLength = progressEvent.lengthComputable
             ? progressEvent.total
             : progressEvent.target.getResponseHeader('content-length') || progressEvent.target.getResponseHeader('x-decompressed-content-length');
@@ -126,7 +127,7 @@ export const deleteFile = (file: IFile): ThunkAnyActionType => {
   return async (dispatch) => {
     try {
 
-      const response = await axios.delete(`${API_URL}api/files?id=${file._id}`, {
+      const response = await axios.delete<ResponseType.DeleteFile>(`${API_URL}api/files?id=${file._id}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
@@ -142,7 +143,7 @@ export const deleteFile = (file: IFile): ThunkAnyActionType => {
 export const searchFiles = (searchQuery: string): ThunkAnyActionType => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`${API_URL}api/files/search?query=${searchQuery}`, {
+      const response = await axios.get<ResponseType.SearchFiles>(`${API_URL}api/files/search?query=${searchQuery}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
