@@ -1,3 +1,5 @@
+import { IFile } from '../../interfaces';
+
 const SET_FILES = 'SET_FILES';
 const SET_CURRENT_DIR = 'SET_CURRENT_DIR';
 const ADD_FILE = 'ADD_FILE';
@@ -7,6 +9,8 @@ const POP_DIR_FROM_STACK = 'POP_DIR_FROM_STACK';
 const DELETE_FILE = 'DELETE_FILE';
 const SET_VIEW = 'SET_VIEW';
 
+type ViewType = 'list' | 'plate' | string;
+
 const initialState = {
   files: [],
   currentDirectory: null,
@@ -15,17 +19,17 @@ const initialState = {
   view: 'list',
 };
 
-export const setFiles = (files: []) => ({
+export const setFiles = (files: IFile[]) => ({
   type: SET_FILES,
   payload: files,
 });
 
-export const setCurrentDirectory = (directory: []) => ({
+export const setCurrentDirectory = (directory: IFile['_id']) => ({
   type: SET_CURRENT_DIR,
   payload: directory,
 });
 
-export const addFile = (file: any) => ({
+export const addFile = (file: IFile) => ({
   type: ADD_FILE,
   payload: file,
 });
@@ -35,7 +39,7 @@ export const setPopupDisplay = (isShow: boolean) => ({
   payload: isShow,
 });
 
-export const pushDirToStack = (directoryId: string) => ({
+export const pushDirToStack = (directoryId: IFile['_id']) => ({
   type: PUSH_DIR_TO_STACK,
   payload: directoryId,
 });
@@ -44,12 +48,12 @@ export const popDirFromStack = () => ({
   type: POP_DIR_FROM_STACK,
 });
 
-export const deleteFile = (fileId: string) => ({
+export const deleteFile = (fileId: IFile['_id']) => ({
   type: DELETE_FILE,
   payload: fileId,
 });
 
-export const setView = (view: string) => ({
+export const setView = (view: ViewType) => ({
   type: SET_VIEW,
   payload: view,
 });
@@ -89,7 +93,7 @@ const fileReducer = (state = initialState, action: any) => {
     case DELETE_FILE:
       return {
         ...state,
-        files: state.files.filter((file: any) => file._id !== action.payload)
+        files: state.files.filter((file: IFile) => file._id !== action.payload)
       };
     case SET_VIEW:
       return {

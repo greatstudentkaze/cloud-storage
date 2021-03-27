@@ -4,6 +4,8 @@ import { ThunkAction } from 'redux-thunk';
 import { RootState } from '../store';
 
 import { API_URL } from '../../constants';
+import { IUser } from '../../interfaces';
+
 import { setUser } from '../reducer/user';
 
 export const registration = async (email: string, password: string) => {
@@ -18,13 +20,13 @@ export const registration = async (email: string, password: string) => {
 
 type ThunkAnyActionType = ThunkAction<void, RootState, unknown, AnyAction>
 
-export const login = (email: string, password: string): ThunkAnyActionType => {
+export const login = (email: IUser['email'], password: IUser['password']): ThunkAnyActionType => {
   return async (dispatch) => {
     try {
       const response = await axios.post(`${API_URL}api/auth/login`, { email, password });
 
-      dispatch(setUser(response.data.user));
       localStorage.setItem('token', response.data.token);
+      dispatch(setUser(response.data.user));
     } catch (err) {
       alert(err.response.data.message);
     }
@@ -38,8 +40,8 @@ export const auth = (): ThunkAnyActionType => {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
       });
 
-      dispatch(setUser(response.data.user));
       localStorage.setItem('token', response.data.token);
+      dispatch(setUser(response.data.user));
     } catch (err) {
       localStorage.removeItem('token');
     }

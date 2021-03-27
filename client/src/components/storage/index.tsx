@@ -72,7 +72,7 @@ const Storage = () => {
   const handleDisplaySelectionClick = (evt: SyntheticEvent<HTMLButtonElement>) => {
     const { currentTarget } = evt;
 
-    dispatch(setView(currentTarget.dataset.view ?? ''));
+    dispatch(setView(currentTarget.dataset.view ?? 'list'));
   };
 
   return (

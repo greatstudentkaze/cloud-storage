@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../../../redux/store';
 import { hideUploader } from '../../../redux/reducer/upload';
+import { IUploadFile } from '../../../interfaces';
 
 import UploadFile from './upload-file';
 
@@ -23,7 +24,7 @@ const Uploader = () => {
         <h2 className="uploader__title">Загрузки</h2>
         <button className="uploader__close" type="button" onClick={handleCloseClick}>X</button>
       </header>
-      {files.map((file: any) => <UploadFile key={file.id} file={file} />)}
+      {files.map((file: IUploadFile) => <UploadFile key={file.id} file={file} />)}
     </section>
   );
 };

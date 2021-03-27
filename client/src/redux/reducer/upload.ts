@@ -1,3 +1,5 @@
+import { IUploadFile } from '../../interfaces';
+
 const SHOW_UPLOADER = 'SHOW_UPLOADER';
 const HIDE_UPLOADER = 'HIDE_UPLOADER';
 const ADD_UPLOAD_FILE = 'ADD_UPLOAD_FILE';
@@ -12,17 +14,17 @@ export const hideUploader = () => ({
   type: HIDE_UPLOADER,
 });
 
-export const addUploadFile = (file: any) => ({
+export const addUploadFile = (file: IUploadFile) => ({
   type: ADD_UPLOAD_FILE,
   payload: file,
 });
 
-export const removeUploadFile = (fileId: string) => ({
+export const removeUploadFile = (fileId: IUploadFile['id']) => ({
   type: REMOVE_UPLOAD_FILE,
   payload: fileId,
 });
 
-export const changeUploadFile = (fileId: string, progress: number) => ({
+export const changeUploadFile = (fileId: IUploadFile['id'], progress: IUploadFile['progress']) => ({
   type: CHANGE_UPLOAD_FILE,
   payload: {
     id: fileId,
@@ -55,12 +57,12 @@ const uploadReducer = (state = initialState, action: any) => {
     case REMOVE_UPLOAD_FILE:
       return {
         ...state,
-        files: state.files.filter((file: any) => file.id !== action.payload)
+        files: state.files.filter((file: IUploadFile) => file.id !== action.payload)
       };
     case CHANGE_UPLOAD_FILE:
       return {
         ...state,
-        files: state.files.map((file: any) => file.id === action.payload.id
+        files: state.files.map((file: IUploadFile) => file.id === action.payload.id
           ? {...file, progress: action.payload.progress}
           : file
         )

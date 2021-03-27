@@ -4,6 +4,7 @@ import { RootState } from '../store';
 import { AnyAction } from 'redux';
 
 import { API_URL } from '../../constants';
+import { IFile } from '../../interfaces';
 
 import { addFile, setFiles, deleteFile as deleteFileActionCreator } from '../reducer/file';
 import { addUploadFile, changeUploadFile, showUploader } from '../reducer/upload';
@@ -55,7 +56,7 @@ export const createDirectory = (directoryId: string, name: string): ThunkAnyActi
       });
       dispatch(addFile(response.data));
     } catch (err) {
-      alert(err.response.data.message);
+      alert(err.response.data);
     }
   }
 };
@@ -97,7 +98,7 @@ export const uploadFile = (file: File, directoryId?: string): ThunkAnyActionType
   }
 };
 
-export const downloadFile = async (file: any) => {
+export const downloadFile = async (file: IFile) => {
   try {
     const response = await axios.get(`${API_URL}api/files/download?id=${file._id}`, {
       responseType: 'blob',
@@ -121,7 +122,7 @@ export const downloadFile = async (file: any) => {
   }
 };
 
-export const deleteFile = (file: any): ThunkAnyActionType => {
+export const deleteFile = (file: IFile): ThunkAnyActionType => {
   return async (dispatch) => {
     try {
 

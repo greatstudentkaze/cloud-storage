@@ -2,11 +2,12 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 
 import { removeUploadFile } from '../../../../redux/reducer/upload';
+import { IUploadFile } from '../../../../interfaces';
 
 import './css/upload-file.css';
 
 type Props = {
-  file: any,
+  file: IUploadFile,
 }
 
 const UploadFile = ({ file }: Props) => {
