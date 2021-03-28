@@ -1,16 +1,24 @@
 import * as ActionType from '../actions/types/file';
 
 import { IFile } from '../../interfaces';
+import { ActionsType } from '../actions/file';
+import { ViewType } from '../../types';
+
+type Files = IFile[];
+type CurrentDirectory = IFile['_id'] | null;
+type DirectoryStack = Array<IFile['_id'] | null>;
 
 const initialState = {
-  files: [],
-  currentDirectory: null,
+  files: [] as Files,
+  currentDirectory: null as CurrentDirectory,
   isShowPopup: false,
-  dirStack: [],
-  view: 'list',
+  dirStack: [] as DirectoryStack,
+  view: 'list' as ViewType,
 };
 
-const fileReducer = (state = initialState, action: any) => {
+type State = typeof initialState;
+
+const fileReducer = (state = initialState, action: ActionsType): State => {
   switch (action.type) {
     case ActionType.SET_FILES:
       return {
@@ -45,7 +53,7 @@ const fileReducer = (state = initialState, action: any) => {
     case ActionType.DELETE_FILE_SUCCESS:
       return {
         ...state,
-        files: state.files.filter((file: IFile) => file._id !== action.payload)
+        files: state.files.filter((file) => file._id !== action.payload)
       };
     case ActionType.SET_VIEW:
       return {

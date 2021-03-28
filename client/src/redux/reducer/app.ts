@@ -1,27 +1,21 @@
-const SHOW_LOADER = 'SHOW_LOADER';
-const HIDE_LOADER = 'HIDE_LOADER';
+import * as ActionType from '../actions/types/app';
 
-export const showLoader = () => ({
-  type: SHOW_LOADER,
-});
-
-
-export const hideLoader = () => ({
-  type: HIDE_LOADER,
-});
+import { ActionsType } from '../actions/app';
 
 const initialState = {
   isShowLoader: false,
 };
 
-const appReducer = (state = initialState, action: any) => {
+type State = typeof initialState;
+
+const appReducer = (state = initialState, action: ActionsType): State => {
   switch (action.type) {
-    case SHOW_LOADER:
+    case ActionType.SHOW_LOADER:
       return {
         ...state,
         isShowLoader: true,
       };
-    case HIDE_LOADER:
+    case ActionType.HIDE_LOADER:
       return {
         ...state,
         isShowLoader: false,

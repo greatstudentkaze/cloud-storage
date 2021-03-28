@@ -7,7 +7,7 @@ import { API_URL } from '../../constants';
 import { RootState } from '../../redux/store';
 import { logOut } from '../../redux/actions/user';
 import { getFiles, searchFiles } from '../../redux/actions/file';
-import { showLoader } from '../../redux/reducer/app';
+import { showLoader } from '../../redux/actions/app';
 
 import Input from '../input';
 
@@ -27,7 +27,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const [searchQuery, setSearchQuery] = useState('');
   const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout>(null as unknown as NodeJS.Timeout);
-  const avatar = currentUser.avatar ? `${API_URL}${currentUser.avatar}` : userAvatar;
+  const avatar = currentUser && currentUser.avatar ? `${API_URL}${currentUser.avatar}` : userAvatar;
 
   useEffect(() => {
     if (!isAuthorized) {

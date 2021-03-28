@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../../../redux/store';
-import { hideUploader } from '../../../redux/reducer/upload';
+import { hideUploader } from '../../../redux/actions/uploader';
 import { IUploadFile } from '../../../interfaces';
 
 import UploadFile from './upload-file';
@@ -10,8 +10,8 @@ import UploadFile from './upload-file';
 import './css/uploader.css';
 
 const Uploader = () => {
-  const isVisible = useSelector(({ upload }: RootState) => upload.isVisible);
-  const files = useSelector(({ upload }: RootState) => upload.files);
+  const isVisible = useSelector(({ uploader }: RootState) => uploader.isVisible);
+  const files = useSelector(({ uploader }: RootState) => uploader.files);
   const dispatch = useDispatch();
 
   const handleCloseClick = () => {

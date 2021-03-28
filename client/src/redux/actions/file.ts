@@ -1,60 +1,58 @@
 import axios from 'axios';
-import { ThunkAction } from 'redux-thunk';
-import { RootState } from '../store';
-import { AnyAction } from 'redux';
 
 import { API_URL } from '../../constants';
 import { IFile } from '../../interfaces';
-import { ResponseType } from '../../namespaces/file';
+import { ViewType } from '../../types';
+import { ResponseType, ActionInterface, ThunkActionType } from '../../namespaces/file';
 
 import * as ActionType from './types/file';
-import { addUploadFile, changeUploadFile, showUploader } from '../reducer/upload';
-import { hideLoader, showLoader } from '../reducer/app';
+import { addUploadFile, changeUploadFile, showUploader } from './uploader';
+import { hideLoader, showLoader } from './app';
 
-type ViewType = 'list' | 'plate' | string;
+export type ActionsType = ActionInterface.SetFiles | ActionInterface.SetCurrentDirectory | ActionInterface.AddFile |
+  ActionInterface.SetPopupDisplay | ActionInterface.PushDirToStack | ActionInterface.PopDirFromStack |
+  ActionInterface.DeleteFileSuccess | ActionInterface.SetView;
 
-type ThunkAnyActionType = ThunkAction<void, RootState, unknown, AnyAction>
-
-export const setFiles = (files: IFile[]) => ({
+export const setFiles = (files: IFile[]): ActionInterface.SetFiles => ({
   type: ActionType.SET_FILES,
   payload: files,
 });
 
-export const setCurrentDirectory = (directory: IFile['_id']) => ({
+export const setCurrentDirectory = (directory: IFile['_id']): ActionInterface.SetCurrentDirectory => ({
   type: ActionType.SET_CURRENT_DIR,
   payload: directory,
 });
 
-export const addFile = (file: IFile) => ({
+export const addFile = (file: IFile): ActionInterface.AddFile => ({
   type: ActionType.ADD_FILE,
   payload: file,
 });
 
-export const setPopupDisplay = (isShow: boolean) => ({
+export const setPopupDisplay = (isShow: boolean): ActionInterface.SetPopupDisplay => ({
   type: ActionType.SET_POPUP_DISPLAY,
   payload: isShow,
 });
 
-export const pushDirToStack = (directoryId: IFile['_id']) => ({
+export const pushDirToStack = (directoryId: IFile['_id']): ActionInterface.PushDirToStack => ({
   type: ActionType.PUSH_DIR_TO_STACK,
   payload: directoryId,
 });
 
-export const popDirFromStack = () => ({
+export const popDirFromStack = (): ActionInterface.PopDirFromStack => ({
   type: ActionType.POP_DIR_FROM_STACK,
 });
 
-export const deleteFileSuccess = (fileId: IFile['_id']) => ({
+export const deleteFileSuccess = (fileId: IFile['_id']): ActionInterface.DeleteFileSuccess => ({
   type: ActionType.DELETE_FILE_SUCCESS,
   payload: fileId
 });
 
-export const setView = (view: ViewType) => ({
+export const setView = (view: ViewType): ActionInterface.SetView => ({
   type: ActionType.SET_VIEW,
   payload: view,
 });
 
-export const getFiles = (directoryId: string, sort?: string): ThunkAnyActionType => {
+export const getFiles = (directoryId: string, sort?: string): ThunkActionType.WithAppActions => {
   return async (dispatch) => {
     try {
       dispatch(showLoader());
@@ -84,7 +82,7 @@ export const getFiles = (directoryId: string, sort?: string): ThunkAnyActionType
   }
 };
 
-export const createDirectory = (directoryId: string, name: string): ThunkAnyActionType => {
+export const createDirectory = (directoryId: string, name: string): ThunkActionType.Default => {
   return async (dispatch) => {
     try {
       const response = await axios.post<ResponseType.CreateDirectory>(`${API_URL}api/files`, {
@@ -103,7 +101,7 @@ export const createDirectory = (directoryId: string, name: string): ThunkAnyActi
   }
 };
 
-export const uploadFile = (file: File, directoryId?: string): ThunkAnyActionType => {
+export const uploadFile = (file: File, directoryId?: string): ThunkActionType.WithUploaderActions => {
   return async (dispatch) => {
     try {
       const formData = new FormData();
@@ -164,7 +162,7 @@ export const downloadFile = async (file: IFile) => {
   }
 };
 
-export const deleteFile = (file: IFile): ThunkAnyActionType => {
+export const deleteFile = (file: IFile): ThunkActionType.Default => {
   return async (dispatch) => {
     try {
 
@@ -181,7 +179,7 @@ export const deleteFile = (file: IFile): ThunkAnyActionType => {
   }
 };
 
-export const searchFiles = (searchQuery: string): ThunkAnyActionType => {
+export const searchFiles = (searchQuery: string): ThunkActionType.WithAppActions => {
   return async (dispatch) => {
     try {
       const response = await axios.get<ResponseType.SearchFiles>(`${API_URL}api/files/search?query=${searchQuery}`, {

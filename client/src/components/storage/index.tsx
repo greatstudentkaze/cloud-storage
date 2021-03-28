@@ -5,6 +5,8 @@ import { RootState } from '../../redux/store';
 import { getFiles, uploadFile } from '../../redux/actions/file';
 import { popDirFromStack, setCurrentDirectory, setPopupDisplay, setView } from '../../redux/actions/file';
 
+import { ViewType } from '../../types';
+
 import FileList from './file-list';
 import Popup from './popup';
 import Uploader from './uploader';
@@ -72,7 +74,9 @@ const Storage = () => {
   const handleDisplaySelectionClick = (evt: SyntheticEvent<HTMLButtonElement>) => {
     const { currentTarget } = evt;
 
-    dispatch(setView(currentTarget.dataset.view ?? 'list'));
+    const view = currentTarget.dataset.view as ViewType ?? 'list';
+
+    dispatch(setView(view));
   };
 
   return (
