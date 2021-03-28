@@ -1,29 +1,21 @@
-const SET_USER = 'SET_USER';
-const LOGOUT = 'LOGOUT';
+import * as ActionType from '../actions/types/user';
 
-export const setUser = (user: {}) => ({
-  type: SET_USER,
-  payload: user,
-});
-
-export const logOut = () => ({
-  type: LOGOUT,
-});
+import { IUserData } from '../../interfaces';
 
 const initialState = {
-  currentUser: {},
+  currentUser: {} as IUserData,
   isAuthorized: false,
 };
 
 const userReducer = (state = initialState, action: any) => {
   switch (action.type) {
-    case SET_USER:
+    case ActionType.SET_USER:
       return {
         ...state,
         currentUser: action.payload,
         isAuthorized: true,
       };
-    case LOGOUT:
+    case ActionType.LOGOUT:
       return {
         ...state,
         currentUser: {},

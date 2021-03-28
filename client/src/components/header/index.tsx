@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { API_URL } from '../../constants';
 
 import { RootState } from '../../redux/store';
-import { logOut } from '../../redux/reducer/user';
+import { logOut } from '../../redux/actions/user';
 import { getFiles, searchFiles } from '../../redux/actions/file';
 import { showLoader } from '../../redux/reducer/app';
 

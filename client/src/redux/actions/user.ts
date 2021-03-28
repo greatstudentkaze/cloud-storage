@@ -4,10 +4,19 @@ import { ThunkAction } from 'redux-thunk';
 import { RootState } from '../store';
 
 import { API_URL } from '../../constants';
-import { IUser } from '../../interfaces';
+import * as ActionType from './types/user';
+
+import { IUserData, IUser } from '../../interfaces';
 import { ResponseType } from '../../namespaces/user';
 
-import { setUser } from '../reducer/user';
+export const setUser = (user: IUserData) => ({
+  type: ActionType.SET_USER,
+  payload: user,
+});
+
+export const logOut = () => ({
+  type: ActionType.LOGOUT,
+});
 
 export const registration = async (email: string, password: string) => {
   try {
