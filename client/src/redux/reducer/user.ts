@@ -1,13 +1,18 @@
 import * as ActionType from '../actions/types/user';
 
 import { IUserData } from '../../interfaces';
+import { ActionsType } from '../actions/user';
+
+type CurrentUser = IUserData | null;
 
 const initialState = {
-  currentUser: {} as IUserData,
+  currentUser: null as CurrentUser,
   isAuthorized: false,
 };
 
-const userReducer = (state = initialState, action: any) => {
+type State = typeof initialState;
+
+const userReducer = (state = initialState, action: ActionsType): State => {
   switch (action.type) {
     case ActionType.SET_USER:
       return {
@@ -18,7 +23,7 @@ const userReducer = (state = initialState, action: any) => {
     case ActionType.LOGOUT:
       return {
         ...state,
-        currentUser: {},
+        currentUser: null,
         isAuthorized: false,
       };
     default:

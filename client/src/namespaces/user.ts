@@ -1,3 +1,5 @@
+import * as ActionType from '../redux/actions/types/user';
+
 import { IUserData } from '../interfaces';
 
 export namespace ResponseType {
@@ -15,4 +17,10 @@ export namespace ResponseType {
   export type UploadAvatar = IUserData;
 
   export type DeleteAvatar = IUserData;
+}
+
+export namespace ActionInterface {
+  export interface LogOut { type: typeof ActionType.LOGOUT }
+
+  export interface SetUser { type: typeof ActionType.SET_USER, payload: IUserData }
 }

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { AnyAction } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '../store';
 
@@ -7,18 +6,21 @@ import { API_URL } from '../../constants';
 import * as ActionType from './types/user';
 
 import { IUserData, IUser } from '../../interfaces';
-import { ResponseType } from '../../namespaces/user';
+import { ResponseType, ActionInterface } from '../../namespaces/user';
 
-export const setUser = (user: IUserData) => ({
+export type ActionsType = ActionInterface.LogOut | ActionInterface.SetUser;
+type ThunkActionType = ThunkAction<void, RootState, unknown, ActionsType>;
+
+export const setUser = (user: IUserData): ActionInterface.SetUser => ({
   type: ActionType.SET_USER,
   payload: user,
 });
 
-export const logOut = () => ({
+export const logOut = (): ActionInterface.LogOut => ({
   type: ActionType.LOGOUT,
 });
 
-export const registration = async (email: string, password: string) => {
+export const registration = async (email: IUser['email'], password: IUser['password']) => {
   try {
     const response = await axios.post<ResponseType.Registration>(`${API_URL}api/auth/registration`, { email, password });
 
@@ -28,9 +30,7 @@ export const registration = async (email: string, password: string) => {
   }
 };
 
-type ThunkAnyActionType = ThunkAction<void, RootState, unknown, AnyAction>
-
-export const login = (email: IUser['email'], password: IUser['password']): ThunkAnyActionType => {
+export const login = (email: IUser['email'], password: IUser['password']): ThunkActionType => {
   return async (dispatch) => {
     try {
       const response = await axios.post<ResponseType.Login>(`${API_URL}api/auth/login`, { email, password });
@@ -43,7 +43,7 @@ export const login = (email: IUser['email'], password: IUser['password']): Thunk
   }
 };
 
-export const auth = (): ThunkAnyActionType => {
+export const auth = (): ThunkActionType => {
   return async (dispatch) => {
     try {
       const response = await axios.get<ResponseType.Auth>(`${API_URL}api/auth/auth`, {
@@ -58,7 +58,7 @@ export const auth = (): ThunkAnyActionType => {
   }
 };
 
-export const uploadAvatar = (avatarFile: File): ThunkAnyActionType => {
+export const uploadAvatar = (avatarFile: File): ThunkActionType => {
   return async (dispatch) => {
     try {
       const formData = new FormData();
@@ -77,7 +77,7 @@ export const uploadAvatar = (avatarFile: File): ThunkAnyActionType => {
   }
 };
 
-export const deleteAvatar = (): ThunkAnyActionType => {
+export const deleteAvatar = (): ThunkActionType => {
   return async (dispatch) => {
     try {
       const response = await axios.delete<ResponseType.DeleteAvatar>(`${API_URL}api/files/avatar`, {
