@@ -7,11 +7,52 @@ import { API_URL } from '../../constants';
 import { IFile } from '../../interfaces';
 import { ResponseType } from '../../namespaces/file';
 
-import { addFile, setFiles, deleteFile as deleteFileActionCreator } from '../reducer/file';
+import * as ActionType from './types/file';
 import { addUploadFile, changeUploadFile, showUploader } from '../reducer/upload';
 import { hideLoader, showLoader } from '../reducer/app';
 
+type ViewType = 'list' | 'plate' | string;
+
 type ThunkAnyActionType = ThunkAction<void, RootState, unknown, AnyAction>
+
+export const setFiles = (files: IFile[]) => ({
+  type: ActionType.SET_FILES,
+  payload: files,
+});
+
+export const setCurrentDirectory = (directory: IFile['_id']) => ({
+  type: ActionType.SET_CURRENT_DIR,
+  payload: directory,
+});
+
+export const addFile = (file: IFile) => ({
+  type: ActionType.ADD_FILE,
+  payload: file,
+});
+
+export const setPopupDisplay = (isShow: boolean) => ({
+  type: ActionType.SET_POPUP_DISPLAY,
+  payload: isShow,
+});
+
+export const pushDirToStack = (directoryId: IFile['_id']) => ({
+  type: ActionType.PUSH_DIR_TO_STACK,
+  payload: directoryId,
+});
+
+export const popDirFromStack = () => ({
+  type: ActionType.POP_DIR_FROM_STACK,
+});
+
+export const deleteFileSuccess = (fileId: IFile['_id']) => ({
+  type: ActionType.DELETE_FILE_SUCCESS,
+  payload: fileId
+});
+
+export const setView = (view: ViewType) => ({
+  type: ActionType.SET_VIEW,
+  payload: view,
+});
 
 export const getFiles = (directoryId: string, sort?: string): ThunkAnyActionType => {
   return async (dispatch) => {
@@ -132,7 +173,7 @@ export const deleteFile = (file: IFile): ThunkAnyActionType => {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
         });
-      dispatch(deleteFileActionCreator(file._id));
+      dispatch(deleteFileSuccess(file._id));
       alert(response.data.message);
     } catch (err) {
       alert(err.response.data.message);

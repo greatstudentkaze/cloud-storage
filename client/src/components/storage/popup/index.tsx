@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../../../redux/store';
-import { setPopupDisplay } from '../../../redux/reducer/file';
+import { setPopupDisplay } from '../../../redux/actions/file';
 import { createDirectory } from '../../../redux/actions/file';
 
 import Input from '../../input';

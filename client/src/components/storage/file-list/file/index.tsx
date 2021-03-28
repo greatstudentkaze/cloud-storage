@@ -1,7 +1,7 @@
 import React, { SyntheticEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { pushDirToStack, setCurrentDirectory } from '../../../../redux/reducer/file';
+import { pushDirToStack, setCurrentDirectory } from '../../../../redux/actions/file';
 import { RootState } from '../../../../redux/store';
 import { downloadFile, deleteFile } from '../../../../redux/actions/file';
 import formatSize from '../../../../utils/formatSize';

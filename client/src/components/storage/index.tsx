@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../../redux/store';
 import { getFiles, uploadFile } from '../../redux/actions/file';
-import { popDirFromStack, setCurrentDirectory, setPopupDisplay, setView } from '../../redux/reducer/file';
+import { popDirFromStack, setCurrentDirectory, setPopupDisplay, setView } from '../../redux/actions/file';
 
 import FileList from './file-list';
 import Popup from './popup';
