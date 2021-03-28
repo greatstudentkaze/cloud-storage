@@ -1,24 +1,18 @@
-import { IUser } from '../interfaces';
+import { IUserData } from '../interfaces';
 
 export namespace ResponseType {
   export type Registration = { message: 'User was created' };
 
   type TokenAndUserData = {
     token: string,
-    user: {
-      id: IUser['_id'],
-      email: IUser['email'],
-      storageSpace: IUser['storageSpace'],
-      usedSpace: IUser['usedSpace'],
-      avatar: IUser['avatar'],
-    },
+    user: IUserData,
   };
 
   export type Login = TokenAndUserData;
 
   export type Auth = TokenAndUserData;
 
-  export type UploadAvatar = IUser;
+  export type UploadAvatar = IUserData;
 
-  export type DeleteAvatar = IUser;
+  export type DeleteAvatar = IUserData;
 }

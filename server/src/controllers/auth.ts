@@ -7,6 +7,14 @@ import fileService from '../services/file.js';
 import UserModel, { IUser } from '../models/user.js';
 import FileModel from '../models/file.js';
 
+export const getUserData = (user: IUser) => ({
+  id: user.id,
+  email: user.email,
+  storageSpace: user.storageSpace,
+  usedSpace: user.usedSpace,
+  avatar: user.avatar,
+});
+
 const getTokenAndUserData = (user: IUser) => {
   if (!process.env.SECRET_KEY) {
     console.error('Добавь SECRET_KEY в .env');
@@ -16,13 +24,7 @@ const getTokenAndUserData = (user: IUser) => {
   const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, { expiresIn: '1h' });
   return {
     token,
-    user: {
-      id: user.id,
-      email: user.email,
-      storageSpace: user.storageSpace,
-      usedSpace: user.usedSpace,
-      avatar: user.avatar,
-    }
+    user: getUserData(user),
   };
 };
 

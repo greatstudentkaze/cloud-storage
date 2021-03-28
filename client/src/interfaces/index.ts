@@ -28,3 +28,11 @@ export interface IUser {
   __v: number,
   _id: string,
 }
+
+export interface IUserData {
+  id: IUser['_id'],
+  email: IUser['email'],
+  storageSpace: IUser['storageSpace'],
+  usedSpace: IUser['usedSpace'],
+  avatar: IUser['avatar'],
+}

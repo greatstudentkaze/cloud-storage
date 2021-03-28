@@ -7,6 +7,7 @@ import { UploadedFile } from 'express-fileupload';
 import fileService from '../services/file.js';
 import FileModel, { IFile } from '../models/file.js';
 import UserModel from '../models/user.js';
+import { getUserData } from './auth.js';
 
 class FileController {
   async createDirectory(req: Request, res: Response) {
@@ -175,7 +176,7 @@ class FileController {
       user.avatar = avatarName;
       await user.save();
 
-      return res.json(user);
+      return res.json(getUserData(user));
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: 'Upload avatar error' });
@@ -199,7 +200,7 @@ class FileController {
       user.avatar = null;
       await user.save();
 
-      return res.json(user);
+      return res.json(getUserData(user));
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: 'Delete avatar error' });
