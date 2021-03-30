@@ -16,6 +16,7 @@ import './css/user-list.css';
 import './css/main-nav.css';
 import './css/page-header.css';
 import userAvatar from '../../assets/img/user-avatar.svg';
+import searchIcon from '../../assets/img/search.svg';
 
 const SEARCH_TIMEOUT = 500;
 
@@ -63,7 +64,7 @@ const Header = () => {
               isAuthorized
                 ? <>
                   <li className="user-list__item">
-                    <Input className="user-list__search" type="text" placeholder="Название файла..." value={searchQuery} setValue={setSearchQuery} />
+                    <Input style={{ backgroundImage: `url(${searchIcon})` }} className="user-list__search" type="text" placeholder="Название файла..." value={searchQuery} setValue={setSearchQuery} />
                   </li>
                   <li className="user-list__item">
                     <NavLink className="user-list__profile" to="/profile"><img src={avatar} width="37" height="37" alt="Аватар" /></NavLink>
