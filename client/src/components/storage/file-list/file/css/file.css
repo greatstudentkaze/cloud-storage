@@ -1,4 +1,86 @@
 .file {
+  display: grid;
+  grid-template-columns: 150px 490px repeat(4, 1fr);
+  align-items: center;
+  padding: 20px;
+
+  font-size: 20px;
+  color: var(--color-gray);
+
+  background-color: var(--color-white);
+  border-radius: 24px;
+
+  cursor: pointer;
+  transition-property: box-shadow, color;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+  transition-delay: 0s;
+}
+
+.file:hover {
+  color: var(--color-blue);
+  box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
+}
+
+.file:hover .file__button {
+  visibility: visible;
+  opacity: 1;
+}
+
+.file__img {
+  justify-self: center;
+  display: block;
+  width: 70px;
+  height: 70px;
+}
+
+.file__name {
+  font-weight: 700;
+}
+
+.file__date {
+  justify-self: center;
+}
+
+.file__size {
+  justify-self: center;
+}
+
+.file__button {
+  justify-self: center;
+  display: inline-block;
+  width: 70px;
+  height: 70px;
+  padding: 10px;
+
+  text-align: center;
+  vertical-align: top;
+
+  background-color: transparent;
+  border: none;
+  visibility: hidden;
+  opacity: 0;
+
+  transition: all 0.3s ease-in-out 0s;
+  cursor: pointer;
+}
+
+.file__button svg {
+  fill: var(--color-gray);
+  transition: fill 0.2s ease-in-out 0s;
+}
+
+.file__button:focus {
+  outline: none;
+}
+
+.file__button:enabled:hover svg,
+.file__button:focus-visible svg {
+  fill: var(--color-blue);
+}
+
+.file__button--delete {
+  grid-column-start: 6;
 }
 
 .file--plate {
@@ -19,10 +101,6 @@
 .file--plate .file__img {
   width: 100px;
   height: 100px;
-}
-
-.file__name {
-
 }
 
 .file--plate .file__actions {

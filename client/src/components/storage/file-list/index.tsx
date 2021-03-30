@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import { RootState } from '../../../redux/store';
+import { IFile } from '../../../interfaces';
 
 import File from './file';
 import Loader from '../../loader';
@@ -27,7 +28,7 @@ const FileList = () => {
     return (
       <div className="file-plate">
         {
-          files.map((file: any) => (<File key={file._id} file={file} />)
+          files.map((file: IFile) => (<File key={file._id} file={file} />)
           )
         }
       </div>
@@ -36,26 +37,27 @@ const FileList = () => {
 
   if (filesView === 'list') {
     return (
-      <div className="file-list">
-        <header className="file-list__header">
-          <div className="file-list__name">Название</div>
-          <div className="file-list__date">Дата</div>
-          <div className="file-list__size">Размер</div>
+      <div className="files files--list">
+        <header className="files__header">
+          <div className="files__name">Название</div>
+          <div className="files__date">Дата</div>
+          <div className="files__size">Размер</div>
         </header>
-        <TransitionGroup>
-          {
-            files.map((file: any) => (
-              <CSSTransition
-                key={file._id}
-                timeout={400}
-                classNames={'file'}
-                exit={false}
-              ><File file={file} />
-              </CSSTransition>)
-            )
-          }
-
-        </TransitionGroup>
+        <ul className="files__list">
+          <TransitionGroup>
+            {
+              files.map((file: IFile) => (
+                <CSSTransition
+                  key={file._id}
+                  timeout={400}
+                  classNames={'file'}
+                  exit={false}
+                ><li className="files__item"><File file={file} /></li>
+                </CSSTransition>)
+              )
+            }
+          </TransitionGroup>
+        </ul>
       </div>
     );
   }

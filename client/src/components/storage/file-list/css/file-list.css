@@ -1,5 +1,47 @@
-.file-list {
+.files {
+  font-size: 20px;
+
+}
+
+.files__header {
+  display: grid;
+  grid-template-columns: 150px 490px repeat(4, 1fr);
+  margin-bottom: 10px;
+  padding: 10px 60px 0 40px;
+
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 700;
+}
+
+.files__name {
+  grid-column-start: 2;
+}
+
+.files__date {
+  grid-column-start: 3;
+  justify-self: center;
+}
+
+.files__size {
+  grid-column-start: 4;
+  justify-self: center;
+}
+
+.files__list {
+  margin: 0;
+  padding: 20px;
+  list-style-type: none;
+
+  height: calc(100vh - 288px);
+  min-height: 410px;
+
+  overflow-y: auto;
   overflow-x: hidden;
+}
+
+.files__item:not(:last-child) {
+  margin-bottom: 20px;
 }
 
 .file-plate {
